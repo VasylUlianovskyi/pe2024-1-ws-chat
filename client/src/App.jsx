@@ -3,7 +3,7 @@ import { Formik, Form, Field } from 'formik';
 import { getMessagesThunk } from './store/slices/messagesSlice';
 import styles from './App.module.css';
 import { connect } from 'react-redux';
-import { createMessage } from './api';
+import { ws } from './api';
 
 function App ({ messages, isFetching, error, limit, create, get }) {
   useEffect(() => {
@@ -12,7 +12,7 @@ function App ({ messages, isFetching, error, limit, create, get }) {
 
   const addMessage = (values, formikBag) => {
     // create(values);
-    createMessage(values);
+    ws.createMessage(values);
     formikBag.resetForm();
   };
 
