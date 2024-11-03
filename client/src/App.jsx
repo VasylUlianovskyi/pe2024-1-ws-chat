@@ -1,11 +1,9 @@
 import { useEffect } from 'react';
 import { Formik, Form, Field } from 'formik';
-import {
-  createMessageThunk,
-  getMessagesThunk,
-} from './store/slices/messagesSlice';
+import { getMessagesThunk } from './store/slices/messagesSlice';
 import styles from './App.module.css';
 import { connect } from 'react-redux';
+import { createMessage } from './api';
 
 function App ({ messages, isFetching, error, limit, create, get }) {
   useEffect(() => {
@@ -13,7 +11,8 @@ function App ({ messages, isFetching, error, limit, create, get }) {
   }, [limit]);
 
   const addMessage = (values, formikBag) => {
-    create(values);
+    // create(values);
+    createMessage(values);
     formikBag.resetForm();
   };
 
