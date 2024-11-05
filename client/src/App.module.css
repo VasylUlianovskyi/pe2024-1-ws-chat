@@ -5,6 +5,11 @@
   border-radius: 5px;
 }
 
-.formContainer {
-  margin: 30px;
+.appContainer {
+  margin: 50px auto;
+  width: 800px;
+  border-radius: 10px;
+  background-color: rgba(127, 255, 212, 0.048);
+  box-shadow: 0 0 5px grey;
+
 }

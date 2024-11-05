@@ -1,59 +1,19 @@
-import { useEffect, useRef } from 'react';
-import { Formik, Form, Field } from 'formik';
+import { useEffect } from 'react';
 import { getMessagesThunk } from './store/slices/messagesSlice';
 import styles from './App.module.css';
 import { connect } from 'react-redux';
-import { ws } from './api';
+import MessageList from './components/MessageList/MessageList';
+import MessageForm from './components/MessageForm/MessageForm';
 
-function App ({ messages, isFetching, error, limit, create, get }) {
-  const scrollTo = useRef(null);
-
+function App ({ messages, isFetching, error, limit, get }) {
   useEffect(() => {
     get(limit);
-  }, [limit]);
-
-  const addMessage = (values, formikBag) => {
-    // create(values);
-    ws.createMessage(values);
-    formikBag.resetForm();
-  };
-
-  useEffect(() => {
-    scrollTo?.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [limit, get]);
 
   return (
-    <article
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100vh',
-      }}
-    >
-      <section style={{ overflowY: 'auto' }}>
-        <ul>
-          {messages.map(m => (
-            <li key={m._id} className={styles.messageItem}>
-              <p>{m._id}</p>
-              <p>{m.body}</p>
-              <p>{m.createdAt}</p>
-            </li>
-          ))}
-        </ul>
-        <div ref={scrollTo} style={{ height: '20px' }}>
-          {error && <div style={{ color: 'red' }}>ERROR!!!</div>}
-          {isFetching && <div>Messages is loading. Please, wait...</div>}
-        </div>
-      </section>
-
-      <section className={styles.formContainer} style={{ marginTop: 'auto' }}>
-        <Formik initialValues={{ body: '' }} onSubmit={addMessage}>
-          <Form>
-            <Field name='body'></Field>
-            <button type='submit'>Send</button>
-          </Form>
-        </Formik>
-      </section>
+    <article className={styles.appContainer}>
+      <MessageList messages={messages} error={error} isFetching={isFetching} />
+      <MessageForm />
     </article>
   );
 }
