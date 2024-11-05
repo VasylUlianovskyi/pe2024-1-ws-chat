@@ -1,15 +1,10 @@
-.messageItem {
-  padding: 10px;
-  margin: 10px;
-  box-shadow: 0 0 5px lightgrey;
-  border-radius: 5px;
-}
-
 .appContainer {
   margin: 50px auto;
   width: 800px;
   border-radius: 10px;
-  background-color: rgba(127, 255, 212, 0.048);
+  background-color: #90ee904b;
   box-shadow: 0 0 5px grey;
-
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }

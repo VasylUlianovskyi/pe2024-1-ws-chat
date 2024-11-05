@@ -1,3 +1,6 @@
+.messageListContainer
+  overflow-y: auto
+
 .messageList
   list-style: none
   padding: 10px
@@ -8,7 +11,37 @@
   padding: 1px 10px
   border-radius: 10px
   border: none
-  background-color: #90ee904b
+  background-color: rgba(170, 94, 221, 0.329)
+  position: relative
+
+  .editInput
+    margin: 10px
+    padding: 15px
+    border-radius: 10px
+    border: none
+
+  .editButton,
+  .deleteButton
+    margin: 10px
+    margin-bottom: 5px
+    font-weight: bolder
+    font-size: 20px
+    cursor: pointer
+
+  .saveButton,
+  .cancelButton
+    font-weight: bolder
+    font-size: 23px
+    cursor: pointer
+
+  .saveButton
+    position: relative
+    top: 9px
+
+  .cancelButton
+    position: relative
+    right: 60px
+    top: 9px
 
   .senderId
     font-weight: bold
@@ -22,8 +55,12 @@
     text-align: end
     font-size: 10px
 
+.errors
+  height: 10px
+
 .error
   color: red
+  margin: 10px 15px
 
 .loading
   font-style: italic

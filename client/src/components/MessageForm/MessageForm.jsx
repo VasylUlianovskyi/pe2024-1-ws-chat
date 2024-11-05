@@ -1,4 +1,5 @@
 import { Formik, Form, Field } from 'formik';
+import { IoIosSend } from 'react-icons/io';
 import styles from './MessageForm.module.sass';
 import { ws } from '../../api';
 function MessageForm () {
@@ -17,7 +18,7 @@ function MessageForm () {
             className={styles.field}
           />
           <button type='submit' className={styles.submitButton}>
-            Send
+            <IoIosSend className={styles.icon} />
           </button>
         </Form>
       </Formik>

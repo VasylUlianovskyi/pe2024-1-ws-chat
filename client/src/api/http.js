@@ -7,3 +7,16 @@ const axiosOptions = {
 const apiInstance = axios.create(axiosOptions);
 
 export const getMessages = limit => apiInstance.get(`/messages?limit=${limit}`);
+
+export const updateMessage = async (messageId, updatedMessage) => {
+  const response = await apiInstance.put(
+    `/messages/${messageId}`,
+    updatedMessage
+  );
+  return response;
+};
+
+export const deleteMessage = async messageId => {
+  const response = await apiInstance.delete(`/messages/${messageId}`);
+  return response;
+};

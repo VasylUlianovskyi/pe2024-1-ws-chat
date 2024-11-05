@@ -14,14 +14,39 @@ module.exports.getMessages = async (req, res, next) => {
   }
 };
 
-// module.exports.createMessage = async (req, res, next) => {
-//   const { body } = req;
+module.exports.updateMessage = async (req, res, next) => {
+  const { messageId } = req.params;
+  const { body } = req.body;
 
-//   try {
-//     const createdMessage = await Message.create(body);
+  try {
+    const updatedMessage = await Message.findByIdAndUpdate(
+      messageId,
+      { body },
+      { new: true }
+    );
 
-//     res.status(201).send({ data: createdMessage });
-//   } catch (err) {
-//     next(err);
-//   }
-// };
+    if (!updatedMessage) {
+      return res.status(404).send({ message: 'Message not found' });
+    }
+
+    res.status(200).send({ data: updatedMessage });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.deleteMessage = async (req, res, next) => {
+  const { messageId } = req.params;
+
+  try {
+    const deletedMessage = await Message.findByIdAndDelete(messageId);
+
+    if (!deletedMessage) {
+      return res.status(404).send({ message: 'Message not found' });
+    }
+
+    res.status(200).send({ message: 'Message deleted successfully' });
+  } catch (err) {
+    next(err);
+  }
+};

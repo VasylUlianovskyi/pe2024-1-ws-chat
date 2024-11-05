@@ -15,17 +15,31 @@ export const getMessagesThunk = createAsyncThunk(
   }
 );
 
-// export const createMessageThunk = createAsyncThunk(
-//   `${MESSAGES_SLICE_NAME}/create`,
-//   async (payload, thunkAPI) => {
-//     try {
-//       const response = await API.createMessage(payload);
-//       return response.data.data;
-//     } catch (err) {
-//       return thunkAPI.rejectWithValue({ message: err.message });
-//     }
-//   }
-// );
+export const updateMessageThunk = createAsyncThunk(
+  `${MESSAGES_SLICE_NAME}/update`,
+  async ({ messageId, updatedBody }, thunkAPI) => {
+    try {
+      const response = await http.updateMessage(messageId, {
+        body: updatedBody,
+      });
+      return response.data.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue({ message: err.message });
+    }
+  }
+);
+
+export const deleteMessageThunk = createAsyncThunk(
+  `${MESSAGES_SLICE_NAME}/delete`,
+  async (messageId, thunkAPI) => {
+    try {
+      await http.deleteMessage(messageId);
+      return messageId;
+    } catch (err) {
+      return thunkAPI.rejectWithValue({ message: err.message });
+    }
+  }
+);
 
 const initialState = {
   messages: [],
@@ -70,22 +84,34 @@ const messagesSlice = createSlice({
       state.isFetching = false;
       state.error = payload;
     });
-    // CREATE
-    //     builder.addCase(createMessageThunk.pending, state => {
-    //       state.isFetching = true;
-    //       state.error = null;
-    //     });
-    //     builder.addCase(createMessageThunk.fulfilled, (state, { payload }) => {
-    // ;      state.isFetching = false;
-    //       if (state.messages.length >= state.limit) {
-    //         state.messages.splice(0, 1);
-    //       }
-    //       state.messages.push(payload);
-    //     });
-    //     builder.addCase(createMessageThunk.rejected, (state, { payload }) => {
-    //       state.isFetching = false;
-    //       state.error = payload;
-    //     })
+
+    // UPDATE
+
+    builder.addCase(updateMessageThunk.fulfilled, (state, { payload }) => {
+      const index = state.messages.findIndex(
+        message => message._id === payload._id
+      );
+      if (index !== -1) {
+        state.messages[index] = payload;
+      }
+    });
+    builder.addCase(updateMessageThunk.rejected, (state, { payload }) => {
+      state.error = payload;
+    });
+
+    // DELETE
+
+    builder.addCase(
+      deleteMessageThunk.fulfilled,
+      (state, { payload: messageId }) => {
+        state.messages = state.messages.filter(
+          message => message._id !== messageId
+        );
+      }
+    );
+    builder.addCase(deleteMessageThunk.rejected, (state, { payload }) => {
+      state.error = payload;
+    });
   },
 });
 

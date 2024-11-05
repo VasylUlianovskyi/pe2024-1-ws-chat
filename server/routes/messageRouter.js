@@ -5,6 +5,8 @@ const messageRouter = Router();
 
 messageRouter.get('/', messageController.getMessages);
 
-// messageRouter.post('/', messageController.createMessage);
+messageRouter.put('/:messageId', messageController.updateMessage);
+
+messageRouter.delete('/:messageId', messageController.deleteMessage);
 
 module.exports = messageRouter;
