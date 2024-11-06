@@ -2,7 +2,7 @@ import { Formik, Form, Field } from 'formik';
 import { IoIosSend } from 'react-icons/io';
 import styles from './MessageForm.module.sass';
 import { ws } from '../../api';
-function MessageForm () {
+function MessageForm ({ room }) {
   const addMessage = (values, formikBag) => {
     ws.createMessage(values);
     formikBag.resetForm();
@@ -17,7 +17,11 @@ function MessageForm () {
             placeholder='Enter your message...'
             className={styles.field}
           />
-          <button type='submit' className={styles.submitButton}>
+          <button
+            type='submit'
+            className={styles.submitButton}
+            disabled={!room}
+          >
             <IoIosSend className={styles.icon} />
           </button>
         </Form>
